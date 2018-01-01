@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>cn.et.fuqiang</groupId>
+  <artifactId>mybatis</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>MyBatis</name>
+  <dependencies>
+    <!-- mybatis核心jar包 -->
+  	<dependency>
+	  <groupId>org.mybatis</groupId>
+	  <artifactId>mybatis</artifactId>
+	  <version>3.2.8</version>
+	</dependency>
+	<!-- 本地ojdbc6的依赖  -->
+	<dependency>
+	  <groupId>oracle</groupId>
+	  <artifactId>ojdbc6</artifactId>
+	  <version>6</version>
+	  <scope>system</scope>
+	  <systemPath>D:\app\Administrator\product\11.2.0\dbhome_1\jdbc\lib\ojdbc6.jar</systemPath>
+	</dependency>
+	<!-- slf4j-log4j12 依赖 -->
+	<dependency>
+	  <groupId>org.slf4j</groupId>
+	  <artifactId>slf4j-log4j12</artifactId>
+	  <version>1.7.5</version>
+	</dependency>
+	<!-- junit 依赖 -->
+	<dependency>
+	  <groupId>junit</groupId>
+	  <artifactId>junit</artifactId>
+	  <version>4.12</version>
+	</dependency>
+	<!-- java 连接 redis 的jedis -->
+	<dependency>
+	    <groupId>redis.clients</groupId>
+	    <artifactId>jedis</artifactId>
+	    <version>2.7.2</version>
+	</dependency>
+  </dependencies>
+</project>

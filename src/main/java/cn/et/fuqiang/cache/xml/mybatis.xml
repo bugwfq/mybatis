@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 指定jdbc的配置文件位置 -->
+	<properties resource="cn/et/fuqiang/cache/jdbc.properties"></properties>
+	<!-- 二级缓存的配置 -->
+	<settings>
+		<setting name="cacheEnabled" value="true"/>
+	</settings>
+	
+	<!-- 配置类别名 -->
+	<typeAliases>
+	<!-- 使用该标签将该包下的所有类统一起别名   默认为类名首字母小写           -->
+		<package name="cn.et.fuqiang.cache.entity"/>
+	</typeAliases>
+	<!-- 配置jdbc环境 -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<!-- 配置数据库连接信息 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${driverClass}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${user}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- 使用接口映射  配置查询语句 -->
+	<mappers>
+	<!-- 注册接口   如果使用的是注解则不需要mappers文件-->
+		<!-- 有两种方式配置mapper 
+		第一种  如果有mapper.xml文件直接配置该文件
+		<mapper resource="mapper 文件的类路径">
+		第二种  配置 接口的全类名
+		重点：如果配置的是接口的全类名则mapper.xm文件的名字必须与接口名相同
+		<mapper class="接口的全类名">
+		-->
+		<mapper resource="cn/et/fuqiang/cache/xml/StudentMapper.xml"/>
+	</mappers>
+
+</configuration>

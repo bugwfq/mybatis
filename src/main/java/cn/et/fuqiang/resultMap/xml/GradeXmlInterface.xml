@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.et.fuqiang.resultMap.xml.GradeXmlInterface">
+	<!-- 当实体的属性名与表名不一致时可使用 resultMap标签 指定对应的列值给对应的属性 
+		autoMapping是设置是否自动装配属性名与表的列名对应的变量
+	-->
+	<resultMap type="grade" id="gradeMap" autoMapping="false">
+		<!-- 主键适合用 id 标签 -->
+		<id column="gid" property="id"/>
+		<!-- 其他的用result标签 -->
+		<result column="gname" property="gname"/>
+	</resultMap>
+	<select id="queryGradeById" resultMap="gradeMap">
+		select * from grade where gid=#{0}
+	</select>
+	
+	<!-- 使用resultMap 多表查询 -->
+	<resultMap type="grade" id="studentsInGrade">
+		<!-- 主键适合用 id 标签 -->
+		<id column="gid" property="id" />
+		<!-- 一对多     多表查询     collection 可获取一个集合
+			property=多表查询装配的属性名
+			column=通过那一列关联
+			select=查询语句
+			javaType=java实体中接受的集合类型
+		-->
+		
+		<collection property="students" column="gid" javaType="list" select="cn.et.fuqiang.resultMap.xml.StudentXmlInterface.quserUserByGid"></collection>
+	</resultMap>
+
+		<!-- 使用多表查询在查询班级的同时根据上面的resultMap查出对应的所有学生  
+		注意： resultMap使用时应注意，如果该resultMap中配置了多表查询，如果是互相查询可能造成死循环
+	  -->
+	<select id="queryAllGrade" resultMap="studentsInGrade">
+		select * from grade
+	</select>
+	
+
+</mapper>

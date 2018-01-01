@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 指定jdbc的配置文件位置 -->
+	<properties resource="cn/et/fuqiang/helloworld/jdbc.properties"></properties>
+		<!-- 设置类别名   方便mapper设置返回类型-->
+	<typeAliases>
+		<!-- 两种设置返回类型的方法 -->
+		<!-- 方法一  设置返回类型  type类的路径     alias  要使用的类别名     在TypeAliasRegistry.class类中查看默认设置的类别名 -->
+		<typeAlias type="cn.et.fuqiang.helloworld.User" alias="myUser"/>
+		
+		<!-- 方法二  直接扫描某个包让容器自己起别名 <package name=""/>-->
+	</typeAliases>
+	<!-- 配置jdbc环境 -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<!-- 配置数据库连接信息 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${driverClass}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${user}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<!-- 设置mapper文件路径 -->
+	<mappers>
+		<!-- 注册表Mapper.xml文件  类路径从src出来 -->
+		<mapper resource="cn/et/fuqiang/helloworld/myUserMapper.xml" />
+	</mappers>
+
+</configuration>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 指定jdbc的配置文件位置 -->
+	<properties resource="cn/et/fuqiang/interfaceMap/annotation/jdbc.properties"></properties>
+	<!-- 配置jdbc环境 -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<!-- 配置数据库连接信息 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${driverClass}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${user}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<!-- 使用接口映射  配置查询语句 -->
+	<mappers>
+		<!-- 注册接口   如果使用的是注解则不需要mappers文件-->
+		<mapper class="cn.et.fuqiang.interfaceMap.annotation.InterfaceMyUser" />
+	</mappers>
+
+</configuration>

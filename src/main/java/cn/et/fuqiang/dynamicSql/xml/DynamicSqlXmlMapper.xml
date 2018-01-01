@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.et.fuqiang.dynamicSql.xml.DynamicSqlXmlInterface">
+
+	<!-- 动态sql语句的练习 	 -->
+	
+	<!-- trim 与 if的连用	 -->
+	<select id="queryStudentByParamsAndTrimAndIF" resultType="student" >
+		select * from student 
+		<!-- trim 替换
+			prefixOverrides     第一次出现的前缀
+			prefix   			替换为什么前缀
+			suffixOverrides		最后一次出现的后缀
+			suffix				替换为什么后缀
+		 -->
+		<trim prefix="where" prefixOverrides="and" >
+			<!-- if  会判断条件是否满足，如果满足则会自动添加语句 -->
+			<if test="stuid!=null">
+				and stuid=#{stuid}
+			</if>
+			<if test="stuname!=null">
+				and stuname like '%${stuname}%'
+			</if>
+			<if test="gid!=null">
+				and gid = #{gid}
+			</if>
+		</trim>
+	</select>
+	<!-- where 与 if 的 连用 -->
+	<select id="queryStudentsByParamsAndWhereAndIF" resultType="student" >
+		select * from student 
+		<!-- where 会自动判断下面是否有满足条件的语句 
+			如果有则会加上where并且判断是否是第一个条件，
+			如果是第一个则会自动去掉前面的and
+			若果没有则会不添加where
+		-->
+		<where>
+		<!-- if  会判断条件是否满足，如果满足则会自动添加语句 -->
+			<if test="stuid!=null">
+				and stuid=#{stuid}
+			</if>
+			<if test="stuname!=null">
+				and stuname like '%${stuname}%'
+			</if>
+			<if test="gid!=null">
+				and gid = #{gid}
+			</if>
+		</where>
+	</select>
+	
+	<!-- choose 的用法 -->
+	<select id="queryStudentsByChoose" resultType="student" >
+		select * from student 
+		<!-- choose  相当于if else if() else嵌套 -->
+		<choose>
+			<when test="stuname!=null">
+				where stuname like '%${stuname}%'
+			</when>
+			<otherwise>
+				where 1=2
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- foreach 用法
+		item  			定义临时变量名  用来存储每次迭代出的值
+		collection      需要迭代的集合   在传入的时候要用param注解写好名字直接使用
+		index           每次循环到的下标
+		open            循环开始的前缀语句
+		close   		循环结束时的后缀
+		separator       每次循环用什么隔开
+		
+		取值的时候需要用   #{} (ognl表达式 ) 或      ${}( el表达式)取值
+	 -->
+	<select id="queryStudentsByForeach" resultType="student">
+		select * from student
+		<foreach  item="test" collection="sids" index="index" open="where stuid in(" separator="," close=")" >
+			#{test}
+		</foreach>
+	</select>
+	
+	<update id="updateStudentByTrim" >
+		update student
+		<!-- trim 替换
+			prefixOverrides     第一次出现的前缀
+			prefix   			替换为什么前缀
+			suffixOverrides		最后一次出现的后缀
+			suffix				替换为什么后缀
+		 -->
+		<trim prefix="set" suffixOverrides="," suffix="where stuid=#{stuid}">
+		<!-- prefix="set"         加一个前缀Set
+			 suffixOverrides=","  将后缀为","号的  
+			   替换为
+			 suffix="where stuid=#{stuid}"
+		  -->
+			<if test="stuname!=null">
+				stuname=#{stuname},
+			</if>
+			<if test="gid!=null">
+				gid = #{gid},
+			</if>
+		</trim>
+	</update>
+	
+	<update id="updateStudentBySet" >
+		update student
+		<!-- set方法    会自动加 SET 关键字    并且会自动去掉多余的  "," 号 -->
+		<set>
+			<if test="stuname!=null">
+				stuname=#{stuname},
+			</if>
+			<if test="gid!=null">
+				gid = #{gid},
+			</if>
+		</set>
+		where stuid=#{stuid}
+	</update>
+
+</mapper>
